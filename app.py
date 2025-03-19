@@ -1,6 +1,7 @@
 import streamlit as st
 from docx import Document
 from io import BytesIO
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 
 def replace_text_in_docx(template_path, replacements):
     doc = Document(template_path)
@@ -17,9 +18,10 @@ def replace_text_in_docx(template_path, replacements):
                     if key in cell.text:
                         cell.text = cell.text.replace(key, value)
     
+    # Ajustar alineación de (DATOS1), (DATOS2) y (DATOS3) a la izquierda
     for para in doc.paragraphs:
-        if "(DATOS2)" in para.text:
-            para.alignment = 0  # Alineación a la izquierda
+        if any(tag in para.text for tag in ["(DATOS1)", "(DATOS2)", "(DATOS3)"]):
+            para.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
     
     return doc
 
