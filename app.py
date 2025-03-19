@@ -17,6 +17,10 @@ def replace_text_in_docx(template_path, replacements):
                     if key in cell.text:
                         cell.text = cell.text.replace(key, value)
     
+    for para in doc.paragraphs:
+        if "(DATOS2)" in para.text:
+            para.alignment = 0  # Alineación a la izquierda
+    
     return doc
 
 st.title("Generador de Documentos de Transporte")
@@ -53,5 +57,8 @@ if st.button("Generar Documento"):
     doc.save(buffer)
     buffer.seek(0)
     
+    # Nombre del archivo personalizado
+    file_name = f"CARTA TIPO - {txt_localizador}.docx"
+    
     # Descargar el archivo modificado
-    st.download_button(label="Descargar Documento", data=buffer, file_name="Documento_Generado.docx", mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+    st.download_button(label="Descargar Documento", data=buffer, file_name=file_name, mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
