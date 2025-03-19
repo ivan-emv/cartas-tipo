@@ -2,6 +2,9 @@ import streamlit as st
 from docx import Document
 from io import BytesIO
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+from docx.shared import Pt
+from docx.oxml import parse_xml
+from docx.oxml.ns import nsmap
 
 def replace_text_in_docx(template_path, replacements):
     doc = Document(template_path)
@@ -18,10 +21,16 @@ def replace_text_in_docx(template_path, replacements):
                     if key in cell.text:
                         cell.text = cell.text.replace(key, value)
     
-    # Ajustar alineación de (DATOS1), (DATOS2) y (DATOS3) a la izquierda
+    # Ajustar alineación de (DATOS1), (DATOS2), (DATOS3) a la izquierda
     for para in doc.paragraphs:
         if any(tag in para.text for tag in ["(DATOS1)", "(DATOS2)", "(DATOS3)"]):
             para.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+    
+    # Aplicar negrita a (INSERTETRAMO), (MODODETRANSPORTE), (FECHA1)
+    for para in doc.paragraphs:
+        for run in para.runs:
+            if "(INSERTETRAMO)" in run.text or "(MODODETRANSPORTE)" in run.text or "(FECHA1)" in run.text:
+                run.bold = True
     
     return doc
 
