@@ -2,6 +2,9 @@ import streamlit as st
 from docx import Document
 from io import BytesIO
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
+from docx.shared import Pt
+from docx.oxml.ns import nsdecls
+from docx.oxml import parse_xml
 
 def replace_text_in_docx(template_path, replacements):
     doc = Document(template_path)
@@ -10,11 +13,13 @@ def replace_text_in_docx(template_path, replacements):
         for key, value in replacements.items():
             if key in para.text:
                 for run in para.runs:
-                    run.text = run.text.replace(key, value)
-                    
-                    # Aplicar negrita a (INSERTETRAMO), (MODODETRANSPORTE) y (FECHA1)
-                    if key in ["(INSERTETRAMO)", "(MODODETRANSPORTE)", "(FECHA1)"]:
-                        run.bold = True
+                    if key in run.text:
+                        run.text = run.text.replace(key, value)
+                        
+                        # Aplicar fuente Arial Black a (INSERTETRAMO), (MODODETRANSPORTE) y (FECHA1)
+                        if key in ["(INSERTETRAMO)", "(MODODETRANSPORTE)", "(FECHA1)"]:
+                            run.font.name = "Arial Black"
+                            run.font.size = Pt(12)
     
     for table in doc.tables:
         for row in table.rows:
