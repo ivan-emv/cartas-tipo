@@ -70,7 +70,7 @@ if st.button("Generar Documento"):
     buffer.seek(0)
     
     # Nombre del archivo personalizado
-    file_name = f"CARTA TIPO - {txt_localizador}.docx"
+    file_name = f"{txt_localizador}.docx"
     
     # Descargar el archivo modificado
     st.download_button(label="Descargar Documento", data=buffer, file_name=file_name, mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
