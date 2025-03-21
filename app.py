@@ -74,6 +74,6 @@ if st.button("Generar Documento"):
     doc.save(buffer)
     buffer.seek(0)
 
-    file_name = f"CARTA TIPO - {txt_localizador}.docx"
+    file_name = f"{txt_localizador}.docx"
 
     st.download_button(label="Descargar Documento", data=buffer, file_name=file_name, mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
