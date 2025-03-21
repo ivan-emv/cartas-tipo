@@ -3,8 +3,6 @@ from docx import Document
 from io import BytesIO
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.shared import Pt
-from docx.oxml.ns import nsdecls
-from docx.oxml import parse_xml
 
 def replace_text_in_docx(template_path, replacements):
     doc = Document(template_path)
@@ -37,6 +35,17 @@ def replace_text_in_docx(template_path, replacements):
 
 st.title("Generador de Documentos de Transporte")
 
+# Selección de idioma
+idioma = st.selectbox("Seleccione el idioma del documento", ["Español", "Portugués", "Inglés"])
+
+# Determinar plantilla según idioma
+if idioma == "Español":
+    template_path = "Carta Tipo - Transporte.docx"
+elif idioma == "Portugués":
+    template_path = "Carta Tipo - Transporte - POR.docx"
+elif idioma == "Inglés":
+    template_path = "Carta Tipo - Transporte - ENG.docx"
+
 # Formulario de entrada
 txt_nombre = st.text_input("Ingrese Nombre de PAX")
 txt_localizador = st.text_input("Ingrese Localizador(es)")
@@ -61,7 +70,6 @@ replacements = {
 
 # Botón para generar el documento
 if st.button("Generar Documento"):
-    template_path = "Carta Tipo - Transporte.docx"
     doc = replace_text_in_docx(template_path, replacements)
     
     # Guardar en un buffer de memoria
@@ -70,7 +78,7 @@ if st.button("Generar Documento"):
     buffer.seek(0)
     
     # Nombre del archivo personalizado
-    file_name = f"{txt_localizador}.docx"
+    file_name = f"CARTA TIPO - {txt_localizador}.docx"
     
     # Descargar el archivo modificado
     st.download_button(label="Descargar Documento", data=buffer, file_name=file_name, mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
