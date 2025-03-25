@@ -33,9 +33,6 @@ def replace_text_in_docx(template_path, replacements):
 
 st.title("Generador de Documentos de Transporte")
 
-# ✅ Configuración de la página
-st.set_page_config(page_title="Generador de Documentos de Transporte", layout="wide")
-
 # 🔧 Ocultar la barra superior y el menú de Streamlit
 hide_streamlit_style = """
     <style>
