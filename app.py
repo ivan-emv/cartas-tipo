@@ -33,6 +33,19 @@ def replace_text_in_docx(template_path, replacements):
 
 st.title("Generador de Documentos de Transporte")
 
+# ✅ Configuración de la página
+st.set_page_config(page_title="Generador de Documentos de Transporte", layout="wide")
+
+# 🔧 Ocultar la barra superior y el menú de Streamlit
+hide_streamlit_style = """
+    <style>
+        #MainMenu {visibility: hidden;}
+        header {visibility: hidden;}
+        footer {visibility: hidden;}
+    </style>
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
 idioma = st.selectbox("Seleccione el idioma del documento", ["Español", "Portugués", "Inglés"])
 
 if idioma == "Español":
